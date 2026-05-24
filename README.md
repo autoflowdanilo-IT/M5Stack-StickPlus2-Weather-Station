@@ -1,45 +1,58 @@
-# StickPlus2 Termometro
+# M5Stick Weather Station
 
-Programma MicroPython per M5Stack Stick Plus 2 che legge un sensore ambientale (unità `ENVUnit`) via I2C e mostra temperatura, umidità, pressione e valori derivati su schermo.
+A real-time weather dashboard for **M5StickC Plus** with ENV III sensor unit.
 
-**Caratteristiche**
-- Pagina LIVE: temperatura, dew point, "feels like", umidità, pressione e trend di pressione.
-- Pagina RECORDS: massimi registrati per temperatura, umidità e pressione.
-- Pagina SYSTEM: percentuale batteria, uptime e intervallo di acquisizione.
-- Toggle schermo (hold su A), cambio pagina (click su A), reset record (hold su B).
+Una dashboard meteo in tempo reale per **M5StickC Plus** con unità sensore ENV III.
 
-File principale
-- `StickSPlus2_Termometro.py` — script principale incluso in questo repository.
+## Features / Funzionalità
 
-Requisiti
-- Firmware MicroPython compatibile con M5Stack Stick Plus 2.
-- Moduli Python per M5: `M5`, `hardware` (Pin, I2C), `unit` (ENVUnit), e `Widgets` forniti dall'ambiente M5.
+- Live temperature, humidity and barometric pressure
+- Calcolo del punto di rugiada e dell'indice di calore (sensazione termica)
+- Pressure trend indicator (^ = v)
+- Monitoraggio dei valori massimi per tutti i sensori
+- Battery level monitor and session uptime
+- Modalità risparmio: schermo acceso/spento
 
-Connessioni hardware
-- I2C: SCL -> GPIO33, SDA -> GPIO32 (configurati nello script).
-- Sensore: unità `ENVUnit` tipo 3 collegata all'I2C.
+## Hardware / Hardware
 
-Configurazione
-- `SAMPLING_INTERVAL` (millisecondi) definisce l'intervallo di lettura dei sensori. Modificare il valore in `StickSPlus2_Termometro.py` se necessario.
+| Component / Componente | Details / Dettagli                 |
+|------------------------|------------------------------------|
+| Board / Scheda         | M5StickC Plus                      |
+| Sensor / Sensore       | ENV III Unit (SHT30 + BMP280)      |
+| Connection / Connessione | Grove port — SDA=32, SCL=33      |
+| Firmware               | UIFlow 2 / MicroPython             |
 
-Installazione e deploy
-1. Caricare il firmware MicroPython per M5Stack Stick Plus 2.
-2. Copiare `StickSPlus2_Termometro.py` nella memoria del dispositivo (es. come `main.py` o eseguirlo via REPL).
-3. Collegare il sensore ENVUnit ai pin I2C indicati e riavviare il dispositivo.
+## Pages / Pagine
 
-Uso
-- Bottone A: click per cambiare pagina; hold per spegnere/accendere lo schermo.
-- Bottone B: hold per resettare i record massimi (emette un breve segnale acustico).
+| Page / Pagina | Content / Contenuto | |
+|---------------|---------------------|--|
+| 0 | Live data — temperature, dew point, feels like, humidity, pressure | default |
+| 0 | Dati in tempo reale — temperatura, punto di rugiada, sensazione termica, umidità, pressione | default |
+| 1 | Max records — peak values since last reset | |
+| 1 | Valori massimi — picchi registrati dall'ultimo reset | |
+| 2 | System info — battery percentage, uptime, sampling interval | |
+| 2 | Info di sistema — livello batteria, uptime, intervallo di campionamento | |
 
-Dettagli implementativi
-- Il file usa `ENVUnit` per ottenere temperatura (`read_temperature()`), umidità (`read_humidity()`) e pressione (`read_pressure()`).
-- Calcoli inclusi: indice di calore (heat index) e punto di rugiada (dew point).
+## Controls / Controlli
 
-Note
-- Lo script gestisce casi di pressione con valore raw alto normalizzando il valore in hPa.
-- In caso di eccezioni durante la lettura dei sensori lo script ignora l'errore (bloc try/except generale).
+| Button / Pulsante | Action / Azione |
+|-------------------|-----------------|
+| BtnA (click)      | Cycle to next page / Cambia pagina |
+| BtnA (hold)       | Toggle screen on/off / Accende/spegne lo schermo |
+| BtnB (hold)       | Reset all max records / Reimposta i valori massimi |
 
-Contatti
-- Autore: (inserisci il tuo nome o contatto qui)
+## Installation / Installazione
 
-Se desideri, posso aggiornare il README con dettagli aggiuntivi (esempio di installazione del firmware, immagini, o istruzioni di debug).
+1. Clone or download this repository
+1. Clona o scarica questo repository
+2. Open the project folder in VS Code with the M5Stack extension
+2. Apri la cartella del progetto in VS Code con l'estensione M5Stack
+3. Connect your M5StickC Plus via USB
+3. Collega il tuo M5StickC Plus via USB
+4. Flash `main.py` to the device
+4. Flash `main.py` sul dispositivo
+
+## License / Licenza
+
+MIT — see [LICENSE](LICENSE)
+MIT — vedi [LICENSE](LICENSE)
